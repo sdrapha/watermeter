@@ -84,6 +84,7 @@ class Reader extends Watermeter
             $cachePrefix = 'post_decimal';
         }
 
+        $digitscount = count($digits_to_read);
         foreach ($digits_to_read as $digit) {
             $rawDigit = clone $digitalSourceImage;
             if (isset($digit['width']) && $digit['width'] > 0 && isset($digit['height']) && $digit['height'] > 0) {
@@ -111,13 +112,16 @@ class Reader extends Watermeter
         try {
             $ocr = new TesseractOCR();
             $ocr->imageData($numberDigitalImage, sizeof($numberDigitalImage));
-            $ocr->allowlist(range('0', '9'));
+            // $ocr->allowlist(range('0', '9'));
+            //$ocr->allowlist('0123456789oOiIlzZsSBg');
+            $ocr->allowlist(['0','1','2','3','4','5','6','7','8','9','o','O','i','I','l','z','Z','s','S','B','g']);
             $numberOCR = $ocr->run();
         } catch (TesseractOcrException $e) {
             $numberOCR = 0;
             $this->errors[] = $e->getMessage();
         }
         $numberDigital = preg_replace('/\s+/', '', $numberOCR);
+        $numberDigital = str_pad($numberDigital, $digitscount, "0", STR_PAD_LEFT);
         // There is TesseractOCR::digits(), but sometimes this will not convert a letter do a similar looking digit but completely ignore it. So we replace o with 0, I with 1 etc.
         $numberDigital = strtr($numberDigital, 'oOiIlzZsSBg', '00111225589');
         // $numberDigital = '00815';
