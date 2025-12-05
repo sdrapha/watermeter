@@ -113,8 +113,8 @@ class Reader extends Watermeter
             $ocr = new TesseractOCR();
             $ocr->imageData($numberDigitalImage, sizeof($numberDigitalImage));
             // $ocr->allowlist(range('0', '9'));
-            $ocr->allowlist('0123456789oOiIlzZsSBg');
-            // $ocr->allowlist(['0','1','2','3','4','5','6','7','8','9','o','O','i','I','l','z','Z','s','S','B','g']);
+            //$ocr->allowlist('0123456789oOiIlzZsSBg');
+            $ocr->allowlist(['0','1','2','3','4','5','6','7','8','9','o','O','i','I','l','z','Z','s','S','B','g']);
             $numberOCR = $ocr->run();
         } catch (TesseractOcrException $e) {
             $numberOCR = 0;
