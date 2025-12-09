@@ -35,6 +35,7 @@ $lastValueTimestamp = $watermeterCache->getLastUpdate();
 
 if (isset($_GET['debug'])) {
     $debug = true;
+    echo '<style> table, th, td { border: 1px solid black; border-collapse: collapse; padding: 10px;}</style>';
 } else {
     $debug = false;
 }
@@ -51,7 +52,6 @@ try {
     $readout = $watermeterReader->getReadout();
     $offset = $watermeterReader->getOffset();
     $value = $readout+$offset;
-
     $returnData = array();
     if ($watermeterReader->hasErrors()) {
         $returnData['readout'] = $lastValue;
@@ -72,17 +72,34 @@ try {
         file_put_contents(__DIR__ . '/../src/config/lastValue.txt', $readout);
     }
     if ($debug) {
-        echo '<td>';
+        echo "<br><br>";
+        echo "<br> ------ Begin Debug output from index.php------ <br>";
+        echo "<br>Status: ";
+        echo $returnData['status'] . "<br>";
+        echo "<br>Input image:<br>";
+        echo '<table><tr><td>';
         $watermeterReader->writeDebugImage(__DIR__ . '/../public/tmp/input_debug.jpg');
         echo '<img src="tmp/input_debug.jpg" />';
-        echo '</td>';
-        echo '</tr></table>';
+        echo '</td></tr></table>';
+        
+        echo "<br>";
         echo "hasErrors: " . $watermeterReader->hasErrors() . "\n<br>";
+        echo "<br>";
+        echo "getErrors result:";
+        echo "<br>";
+        echo "-----------------------------<br>";
+        echo '<table><tr><td>';
         echo "<pre>";
         var_dump($watermeterReader->getErrors());
         echo "</pre>";
+        echo "</td></tr></table>";
+        echo "-----------------------------<br>";
+        echo "<br>";
+        echo "lastValueChanged: $lastValueTimestamp\n<br>";
         echo "lastValue: $lastValue\n<br>";
+        echo "readout: $readout\n<br>";
         echo "value: $value\n<br>";
+        echo "<br>-----end of debug output-----<br><br>";
     }
     if (isset($_GET['json'])) {
         header("Content-Type: application/json");
