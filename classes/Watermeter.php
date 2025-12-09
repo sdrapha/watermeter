@@ -39,6 +39,8 @@ class Watermeter
 
     protected $strokeColor;
 
+    protected $strokeColor2;
+
     protected $strokeOpacity = 0.7;
 
     protected $sourceImageDebug;
@@ -124,6 +126,7 @@ class Watermeter
         }
 
         $this->strokeColor = new ImagickPixel('green');
+        $this->strokeColor2 = new ImagickPixel('magenta');
         $this->sourceImageDebug = clone $this->sourceImage;
     }
 
@@ -150,12 +153,14 @@ class Watermeter
         $this->sourceImageDebug->drawImage($draw);
     }
 
-    public function drawDebugImageDigit($digit)
+    public function drawDebugImageDigit($digit, ?bool $post_decimal = null)
     {
         $draw = new ImagickDraw();
-        $draw->setStrokeColor($this->strokeColor);
+        // Decide which color to use based on the flag
+        $colorToUse = $post_decimal ? $this->strokeColor2 : $this->strokeColor;
+        $draw->setStrokeColor($colorToUse);
         $draw->setStrokeOpacity($this->strokeOpacity);
-        $draw->setStrokeWidth(1);
+        $draw->setStrokeWidth(4);
         $draw->setFillOpacity(0);
         $draw->rectangle($digit['x'], $digit['y'], $digit['x'] + $digit['width'], $digit['y'] + $digit['height']);
         $this->sourceImageDebug->drawImage($draw);
