@@ -58,7 +58,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           pull: true
           push: true
-          cache-from: type=registry,ref=nohn/watermeter:latest
+          cache-from: type=registry,ref=riulopkat/watermeter:latest
           cache-to: type=inline
           tags: riulopkat/watermeter:latest
           labels: ${{ steps.meta.outputs.labels }}
@@ -70,7 +70,7 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
           pull: true
           push: true
-          cache-from: type=registry,ref=nohn/watermeter:develop
+          cache-from: type=registry,ref=riulopkat/watermeter:develop
           cache-to: type=inline
           tags: riulopkat/watermeter:develop
           labels: ${{ steps.meta.outputs.labels }}

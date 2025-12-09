@@ -127,30 +127,40 @@ class Reader extends Watermeter
         // $numberDigital = '00815';
         if ($this->debug) {
             $numberDigitalImage->writeImage('tmp/' . $cachePrefix . '_digital.jpg');
+            echo "<em style='color:grey;font-size:85%;'>Debug output from Reader.php readDigits()</em>";
+            echo '<br><table border="1"><tr><td>';
+            if ($post_decimal == true) { echo '<b>Post decimal:</b><br>'; }
             echo "Raw OCR: $numberOCR<br>";
-            echo "Clean OCR: $numberDigital";
+            echo "Clean OCR: $numberDigital<br>";
             echo '<img alt="Digital Preview" src="tmp/' . $cachePrefix . '_digital.jpg" /><br>';
+            echo '</td></tr></table><br>';
         }
 
         if (is_numeric($numberDigital)) {
-            $numberRead = (int)$numberDigital;
+            $numberRead = (string)$numberDigital;
         } else {
             # FIXXME
-            $numberRead = (int)$this->lastValue;
+            $numberRead = (string)$this->lastValue;
             if ($this->debug) {
                 echo 'Choosing last value ' . $numberRead . '<br>';
             }
             $this->errors['readDigits() : !is_numeric()'] = 'Could not interpret "' . $numberDigital . '". Using last known value ' . (int)$this->lastValue;
             $this->hasErrors = true;
         }
-        if ($this->debug) {
-            echo "Digital: $numberRead<br>";
-            echo '<table border="1"><tr>';
-            echo '<td>';
-            $digitalSourceImage->writeImage('tmp/input.jpg');
-            $numberDigitalImage->writeImage('tmp/' . $cachePrefix . '_digital.png');
-            echo '</td>';
-        }
+        // Redundant, comment out temporarily:
+        // if ($this->debug) {
+        //     echo '<table border="1"><tr>';
+        //     echo '<td>';
+        //     echo "ReadDigits method:<br>";
+        //     echo "Digital: $numberRead<br>";
+        //     echo 'digital source image<br>';
+        //     $digitalSourceImage->writeImage('tmp/input.jpg');
+        //     echo '<img src="tmp/input.jpg" />';
+        //     echo '<br>number digital image<br>';
+        //     $numberDigitalImage->writeImage('tmp/' . $cachePrefix . '_digital.png');
+        //     echo '<img src="tmp/' . $cachePrefix . '_digital.png" />';
+        //     echo '</td></tr></table>';
+        // }
         return $numberRead;
     }
 
