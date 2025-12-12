@@ -36,6 +36,8 @@ $lastValue = $watermeterCache->getValue();
 $watermeterConfig = new Config();
 $config = $watermeterConfig->get();
 
+$darkMode = isset($_COOKIE['darkMode']) && $_COOKIE['darkMode'] === 'enabled';
+
 $fields = array('x', 'y', 'width', 'height');
 if (isset($_POST) && !empty($_POST)) {
     if (isset($_POST['sourceImage'])) {
@@ -129,6 +131,9 @@ if (isset($_POST) && !empty($_POST)) {
             text-align: right;
         }
     </style>
+
+    <link rel="stylesheet" href="styles.css">
+
     <script type="text/javascript">
         function removeElement(prefix) {
             allElements = document.querySelectorAll("fieldset[id^=" + prefix + "]");
@@ -147,7 +152,21 @@ if (isset($_POST) && !empty($_POST)) {
         }
     </script>
 </head>
-<body>
+<body class="<?php echo $darkMode ? 'dark-gray' : ''; ?>">
+<button id="toggleBtn"><?php echo $darkMode ? 'Light Mode' : 'Dark Mode'; ?></button><br><br>
+<script>
+    const btn = document.getElementById("toggleBtn");
+    btn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-gray");
+        if (document.body.classList.contains("dark-gray")) {
+            btn.textContent = "Light Mode";
+            document.cookie = "darkMode=enabled; path=/; max-age=31536000"; // 1 year
+        } else {
+            btn.textContent = "Dark Mode";
+            document.cookie = "darkMode=disabled; path=/; max-age=31536000";
+        }
+        });
+</script>
 <form method="post" id="config" style="float: left;">
     <fieldset class="base">
         <legend>Base Settings</legend>
@@ -232,14 +251,40 @@ if (isset($_POST) && !empty($_POST)) {
     echo '<button onclick="return removeElement(\'gauge\')" />Remove a Gauge</button>';
     echo '<button onclick="return addElement(\'gauge\')" />Add a Gauge</button>';
     echo '</fieldset>';
-
-    echo '<input type="submit" name="action" value="preview">';
-    echo '<input type="submit" name="action" value="save">';
+    echo '<div class="submitWrapper">';
+    echo '<input class="submitBtn" type="submit" name="action" value="preview">';
+    echo '<input class="submitBtn" type="submit" name="action" value="save">';
+    echo '</div>';
     echo '</form>';
     $watermeterReader = new Reader(true, $config);
     $value = $watermeterReader->getReadout();
+    echo '<br><table><tr><td>';
+    echo "<p><b>Input image:</b></p>";
     $watermeterReader->writeDebugImage('tmp/input_debug.jpg');
-    echo '<img src="tmp/input_debug.jpg" style="float: left;"/>';
+    echo '<img id="myImage" src="tmp/input_debug.jpg" style="float: left;"/><br>';
+    echo '<div id="coords">Hover over the image to see coordinates</div>';
+    echo '
+        <script>
+        const img = document.getElementById("myImage");
+        const coords = document.getElementById("coords");
+
+        img.addEventListener("mousemove", function(event) {
+            // Get bounding box of the image
+            const rect = img.getBoundingClientRect();
+
+            // Calculate mouse position relative to the image
+            const x = Math.floor(event.clientX - rect.left);
+            const y = Math.floor(event.clientY - rect.top);
+
+            coords.textContent = `X: ${x}, Y: ${y}`;
+        });
+
+        img.addEventListener("mouseleave", function() {
+            coords.textContent = "Hover over the image to see coordinates";
+        });
+        </script>
+        ';
+    echo '</td></tr></table>';
     ?>
     <?php if(isset($configDump)): ?>
         <div style="clear: both;"><pre><?php echo $configDump; ?></pre></div>

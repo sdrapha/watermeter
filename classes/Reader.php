@@ -184,7 +184,8 @@ class Reader extends Watermeter
     private function debugGauge($amr, $gauge)
     {
         $this->drawDebugImageGauge($gauge);
-        echo '<td>';
+        echo "<em style='color:grey;font-size:85%;'>Debug output from Reader.php debugGauge()</em>";
+        echo '<br><table><tr><td>';
         echo $amr->getValue(true) . '<br>';
         echo '<img src="tmp/analog_' . $gauge['key'] . '.png" /><br />';
         $debugData = $amr->getDebugData();
@@ -194,7 +195,7 @@ class Reader extends Watermeter
         $debugImage = $amr->getDebugImage();
         $debugImage->setImageFormat('png');
         $debugImage->writeImage(__DIR__ . '/../public/tmp/analog_' . $gauge['key'] . '.png');
-        echo '</td>';
+        echo '</td></tr></table><br>';
     }
 
     public function getOffset()

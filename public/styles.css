@@ -1,0 +1,100 @@
+/* styles.css */
+body {
+    background-color: white; /* default */
+    transition: background-color 0.3s ease;
+}
+.dark-gray {
+    background-color: #222;
+    color: white;
+}
+
+button {
+    margin: 1px;
+    padding: 6px 20px;
+    border: 0.1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ddd;
+    color: #222;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+button:hover {
+    opacity: 0.75;
+}
+.dark-gray button {
+    border: 0.1px solid #ccc4;
+    background-color: #444;
+    color: #fff;
+}
+
+form{
+    margin: 10px;
+    border: 1px solid #000;
+}
+.dark-gray form{
+    margin: 10px;
+    border: 1px solid #ccc6;
+}
+fieldset{
+    margin: 6px;
+    padding: 6px 6px;
+    border: 1px solid #0004;
+}
+.dark-gray fieldset{
+    border: 1px solid #ccc3;
+}
+
+input {
+    margin: 1px;
+    padding: 3px 2px;
+    border: 1px solid #ccc6;
+    border-radius: 5px;
+    background-color: #eee;
+    color: #222;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.dark-gray input {
+    border: 0.1px solid #8881;
+    background-color: #444;
+    color: #fff;
+}
+input[type=checkbox]{
+    margin: 6px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+}
+.dark-gray table,
+.dark-gray th,
+.dark-gray td {
+    color: #eee;
+    border: 1px solid #777;
+}
+
+
+.submitBtn{
+    margin: 1px 1px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: #ddd;
+    border: 0.1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.submitBtn:hover {
+    opacity: 0.75;
+}
+.dark-gray .submitBtn {
+    border: 0.1px solid #ccc4;
+}
+.submitWrapper {
+    text-align: right;
+    padding: 6px 10px;
+}
