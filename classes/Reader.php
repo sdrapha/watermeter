@@ -37,6 +37,8 @@ class Reader extends Watermeter
 
     private $errors = array();
 
+    private $delta = 0;
+
     public function getValue()
     {
         return (float)($this->getReadout() + $this->getOffset());
@@ -66,6 +68,7 @@ class Reader extends Watermeter
             $this->errors['value'] = $value;
             $this->errors['lastValue'] = $this->lastValue;
             $this->errors['delta'] = ($value - $this->lastValue);
+            $this->delta = ($value - $this->lastValue);
             $this->hasErrors = true;
             return (float)$this->lastValue;
         }

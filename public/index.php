@@ -39,7 +39,8 @@ if (isset($_GET['debug'])) {
     $debug = true;
     echo '<link rel="stylesheet" href="styles.css">';
     echo '<body class="' . ($darkMode ? 'dark-gray' : '') . '">';
-    echo '<button id="toggleBtn">' . ($darkMode ? 'Light Mode' : 'Dark Mode') . '</button><br><br>';
+    echo '<button id="toggleBtn">' . ($darkMode ? 'Light Mode' : 'Dark Mode') . '</button>';
+    echo '<button type="button" onclick="window.location.href=\'configure.php\'">Go to configure.php</button><br><br>';
     echo '<script>
             const btn = document.getElementById("toggleBtn");
             btn.addEventListener("click", () => {

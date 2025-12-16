@@ -117,17 +117,27 @@ if (isset($_POST) && !empty($_POST)) {
             float: left;
             width: 20em;
         }
-
+        .base label[for] ,
         .base legend[for] {
             float: left;
             width: 15em;
             clear: both;
         }
+        .base em {
+            display:inline-block;
+            min-width:26em;
+            max-width:30em;
+            text-align: left;
+            padding-left: 1em;
+            padding-right: 1.5em;
+            padding-bottom: 0.5em;
+        }
 
         .coordinates input,
-        .coordinates legend[for] {
+        .coordinates legend[for],
+        .coordinates label[for] {
             float: left;
-            width: 3em;
+            width: 3.2em;
             text-align: right;
         }
     </style>
@@ -153,7 +163,7 @@ if (isset($_POST) && !empty($_POST)) {
     </script>
 </head>
 <body class="<?php echo $darkMode ? 'dark-gray' : ''; ?>">
-<button id="toggleBtn"><?php echo $darkMode ? 'Light Mode' : 'Dark Mode'; ?></button><br><br>
+<button id="toggleBtn"><?php echo $darkMode ? 'Light Mode' : 'Dark Mode'; ?></button>
 <script>
     const btn = document.getElementById("toggleBtn");
     btn.addEventListener("click", () => {
@@ -167,51 +177,58 @@ if (isset($_POST) && !empty($_POST)) {
         }
         });
 </script>
+<button type="button" onclick="window.location.href='index.php?debug'">
+    Go to Debug Page
+</button>
+<br><br>
+
+
+
 <form method="post" id="config" style="float: left;">
     <fieldset class="base">
         <legend>Base Settings</legend>
-        <legend for="sourceImage">Source Image</legend>
+        <label for="sourceImage">Source Image</label>
         <input type="text" name="sourceImage" id="sourceImage"
                value="<?php echo isset($config['sourceImage']) ? $config['sourceImage'] : ''; ?>">
-        <legend for="sourceImageRotate">Source Image Rotate °</legend>
+        <label for="sourceImageRotate">Source Image Rotate °</label>
         <input type="text" name="sourceImageRotate" id="sourceImageRotate"
                value="<?php echo isset($config['sourceImageRotate']) ? $config['sourceImageRotate'] : ''; ?>">
-        <legend for="sourceImageCropStartX">Source Image Crop Start x</legend>
+        <label for="sourceImageCropStartX">Source Image Crop Start x</label>
         <input type="text" name="sourceImageCropStartX" id="sourceImageCropStartX"
                value="<?php echo isset($config['sourceImageCropStartX']) ? $config['sourceImageCropStartX'] : ''; ?>">
-        <legend for="sourceImageCropStartY">Source Image Crop Start y</legend>
+        <label for="sourceImageCropStartY">Source Image Crop Start y</label>
         <input type="text" name="sourceImageCropStartY" id="sourceImageCropStartY"
                value="<?php echo isset($config['sourceImageCropStartY']) ? $config['sourceImageCropStartY'] : '' ?>">
-        <legend for="sourceImageCropSizeX">Source Image Crop Width</legend>
+        <label for="sourceImageCropSizeX">Source Image Crop Width</label>
         <input type="text" name="sourceImageCropSizeX" id="sourceImageCropSizeX"
                value="<?php echo isset($config['sourceImageCropSizeX']) ? $config['sourceImageCropSizeX'] : ''; ?>">
-        <legend for="sourceImageCropSizeY">Source Image Crop Height</legend>
+        <label for="sourceImageCropSizeY">Source Image Crop Height</label>
         <input type="text" name="sourceImageCropSizeY" id="sourceImageCropSizeY"
                value="<?php echo isset($config['sourceImageCropSizeY']) ? $config['sourceImageCropSizeY'] : ''; ?>">
-        <legend for="sourceImageBrightness">Source Image Brightness Adjust (%)</legend>
+        <label for="sourceImageBrightness">Source Image Brightness Adjust (%)</label>
         <input type="text" name="sourceImageBrightness" id="sourceImageBrightness"
                value="<?php echo isset($config['sourceImageBrightness']) ? $config['sourceImageBrightness'] : ''; ?>">
-        <legend for="sourceImageContrast">Source Image Contrast Adjust (%)</legend>
+        <label for="sourceImageContrast">Source Image Contrast Adjust (%)</label>
         <input type="text" name="sourceImageContrast" id="sourceImageContrast"
                value="<?php echo isset($config['sourceImageContrast']) ? $config['sourceImageContrast'] : ''; ?>">
-        <legend for="sourceImageEqualize">Source Image histogram equalization</legend>
+        <label for="sourceImageEqualize">Source Image histogram equalization</label>
         <input type="checkbox" name="sourceImageEqualize"
                id="sourceImageEqualize" <?php echo (isset($config['sourceImageEqualize']) && $config['sourceImageEqualize'] == true) ? 'checked' : ''; ?>>
-        <legend for="maxThreshold">Max. Threshold</legend>
+        <label for="maxThreshold">Max. Threshold</label>
         <input type="text" name="maxThreshold" id="maxThreshold"
                value="<?php echo isset($config['maxThreshold']) ? $config['maxThreshold'] : ''; ?>">
-        <legend for="lastValue">Initial Value</legend>
+        <label for="lastValue">Initial Value (last value)</label>
         <input type="text" name="lastValue" id="lastValue" value="<?php echo isset($lastValue) ? $lastValue : ''; ?>">
-        <legend for="offsetValue">Offset Value</legend>
+        <label for="offsetValue">Offset Value</label>
         <input type="text" name="offsetValue" id="offsetValue"
                value="<?php echo isset($config['offsetValue']) ? $config['offsetValue'] : ''; ?>">
-        <legend for="postprocessing">Digit Postprocessing</legend>
+        <label for="postprocessing">Digit Postprocessing</label>
         <input type="checkbox" name="postprocessing"
-               id="postprocessing" <?php echo (isset($config['postprocessing']) && $config['postprocessing'] == true) ? 'checked' : ''; ?>>
-        <legend for="digitDecolorization">Digit Decolorization</legend>
+               id="postprocessing" <?php echo (isset($config['postprocessing']) && $config['postprocessing'] == true) ? 'checked' : ''; ?>><br>
+        <label for="digitDecolorization">Digit Decolorization</label>
         <input type="checkbox" name="digitDecolorization"
                id="digitDecolorization" <?php echo (isset($config['digitDecolorization']) && $config['digitDecolorization'] == true) ? 'checked' : ''; ?>>
-        <legend for="digitalDigitsInversion">Digit Inversion</legend>
+        <label for="digitalDigitsInversion">Digit Inversion</label>
         <input type="checkbox" name="digitalDigitsInversion"
                id="digitalDigitsInversion" <?php echo (isset($config['digitalDigitsInversion']) && $config['digitalDigitsInversion'] == true) ? 'checked' : ''; ?>>
     </fieldset>
@@ -220,7 +237,7 @@ if (isset($_POST) && !empty($_POST)) {
     foreach ($config['digitalDigits'] as $key => $digit) {
         echo '<fieldset id="digit_' . $key . '"><legend>' . $key . '</legend>';
         foreach ($fields as $field) {
-            echo '<legend for="digit[' . $key . '][' . $field . ']">' . $field . '</legend><input name="digit[' . $key . '][' . $field . ']" id="digit[' . $key . '][' . $field . ']" type="text" value="' . (isset($digit[$field]) ? $digit[$field] : '') . '">';
+            echo '<label for="digit[' . $key . '][' . $field . ']">' . $field . '</label><input name="digit[' . $key . '][' . $field . ']" id="digit[' . $key . '][' . $field . ']" type="text" value="' . (isset($digit[$field]) ? $digit[$field] : '') . '">';
         }
         echo '</fieldset>';
     }
@@ -232,7 +249,7 @@ if (isset($_POST) && !empty($_POST)) {
         foreach ($config['postDecimalDigits'] as $key => $digit) {
             echo '<fieldset id="postDecimalDigit_' . $key . '"><legend>' . $key . '</legend>';
             foreach ($fields as $field) {
-                echo '<legend for="postDecimalDigit[' . $key . '][' . $field . ']">' . $field . '</legend><input name="postDecimalDigit[' . $key . '][' . $field . ']" id="digit[' . $key . '][' . $field . ']" type="text" value="' . (isset($digit[$field]) ? $digit[$field] : '') . '">';
+                echo '<label for="postDecimalDigit[' . $key . '][' . $field . ']">' . $field . '</label><input name="postDecimalDigit[' . $key . '][' . $field . ']" id="digit[' . $key . '][' . $field . ']" type="text" value="' . (isset($digit[$field]) ? $digit[$field] : '') . '">';
             }
             echo '</fieldset>';
         }
@@ -244,7 +261,7 @@ if (isset($_POST) && !empty($_POST)) {
     foreach ($config['analogGauges'] as $key => $gauge) {
         echo '<fieldset id="gauge_' . $key . '"><legend>' . $key . '</legend>';
         foreach ($fields as $field) {
-            echo '<legend for="gauge[' . $key . '][' . $field . ']">' . $field . '</legend><input name="gauge[' . $key . '][' . $field . ']" id="gauge[' . $key . '][' . $field . ']" type="text" value="' . (isset($gauge[$field]) ? $gauge[$field] : '') . '">';
+            echo '<label for="gauge[' . $key . '][' . $field . ']">' . $field . '</label><input name="gauge[' . $key . '][' . $field . ']" id="gauge[' . $key . '][' . $field . ']" type="text" value="' . (isset($gauge[$field]) ? $gauge[$field] : '') . '">';
         }
         echo '</fieldset>';
     }
@@ -256,6 +273,8 @@ if (isset($_POST) && !empty($_POST)) {
     echo '<input class="submitBtn" type="submit" name="action" value="save">';
     echo '</div>';
     echo '</form>';
+    
+    
     $watermeterReader = new Reader(true, $config);
     $value = $watermeterReader->getReadout();
     echo '<br><table><tr><td>';

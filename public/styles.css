@@ -44,6 +44,10 @@ fieldset{
     border: 1px solid #ccc3;
 }
 
+input[type=checkbox]{
+    margin: 6px;
+}
+
 input {
     margin: 1px;
     padding: 3px 2px;
@@ -58,9 +62,7 @@ input {
     background-color: #444;
     color: #fff;
 }
-input[type=checkbox]{
-    margin: 6px;
-}
+
 
 table,
 th,
@@ -75,7 +77,6 @@ td {
     color: #eee;
     border: 1px solid #777;
 }
-
 
 .submitBtn{
     margin: 1px 1px;
@@ -94,6 +95,7 @@ td {
 .dark-gray .submitBtn {
     border: 0.1px solid #ccc4;
 }
+
 .submitWrapper {
     text-align: right;
     padding: 6px 10px;
