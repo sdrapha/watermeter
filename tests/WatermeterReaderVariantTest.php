@@ -93,13 +93,18 @@ class WatermeterReaderVariantTest extends TestCase
             'expectedErrors' => array(
                 'getReadout() : is_numeric()' => true,
                 'getReadout() : increasing' => true,
-                'value' => 819.7797,
+                'value' => 00819.7797,
                 'lastValue' => 819.6796,
                 'delta' => 0.10009999999999764,
+                'acceptable_delta' => false,
+                'maxThreshold' => 0.1,
+                'acceptable_backtracking_delta' => false,
+                'maxThresholdBacktracking' => null,
             ),
             'config' => array(
                 'logging' => false,
                 'maxThreshold' => 0.1,
+                'maxThresholdBacktracking' => null,
                 'sourceImage' => __DIR__ . '/../public/demo/demo.jpg',
                 'sourceImageBrightness' => false,
                 'sourceImageContrast' => false,
@@ -355,12 +360,17 @@ class WatermeterReaderVariantTest extends TestCase
                 'expectedErrors' => array(
                     'getReadout() : is_numeric()' => true,
                     'getReadout() : increasing' => false,
-                    'value' => 1189.2776,
+                    'value' => '1189.2776',
                     'lastValue' => 1189.2777,
-                    'delta' => -0.00010000000020227162
+                    'delta' => -0.00010000000020227162,
+                    'acceptable_delta' => false,
+                    'maxThreshold' => '0.2',
+                    'acceptable_backtracking_delta' => false,
+                    'maxThresholdBacktracking' => null,
                 ),
                 'config' => array(
                     'maxThreshold' => '0.2',
+                    'maxThresholdBacktracking' => null,
                     'sourceImage' => __DIR__ . '/data/variants/1.jpg',
                     'digitalDigits' =>
                         array(
@@ -747,12 +757,17 @@ class WatermeterReaderVariantTest extends TestCase
                 'expectedErrors' => array(
                     'getReadout() : is_numeric()' => true,
                     'getReadout() : increasing' => false,
-                    'value' => 1183.9244,
+                    'value' => '1183.9244',
                     'lastValue' => 1189.9216,
                     'delta' => -5.997199999999793,
+                    'acceptable_delta' => false,
+                    'maxThreshold' => '0.2',
+                    'acceptable_backtracking_delta' => false,
+                    'maxThresholdBacktracking' => null,
                 ),
                 'config' => array(
                     'maxThreshold' => '0.2',
+                    'maxThresholdBacktracking' => null,
                     'sourceImage' => __DIR__ . '/data/variants/5.jpg',
                     'digitalDigits' =>
                         array(
@@ -831,9 +846,14 @@ class WatermeterReaderVariantTest extends TestCase
                     'value' => 41189.9249,
                     'lastValue' => 1189.9244,
                     'delta' => 40000.000499999995,
+                    'acceptable_delta' => false,
+                    'maxThreshold' => '0.2',
+                    'acceptable_backtracking_delta' => false,
+                    'maxThresholdBacktracking' => null,
                 ),
                 'config' => array(
                     'maxThreshold' => '0.2',
+                    'maxThresholdBacktracking' => null,
                     'sourceImage' => __DIR__ . '/data/variants/6.jpg',
                     'digitalDigits' =>
                         array(
