@@ -143,6 +143,7 @@ if (isset($_POST) && !empty($_POST)) {
     </style>
 
     <link rel="stylesheet" href="styles.css">
+    <link id="prism-theme" rel="stylesheet" href="prism-<?php echo $darkMode ? 'dark' : 'light'; ?>.css">
 
     <script type="text/javascript">
         function removeElement(prefix) {
@@ -166,17 +167,21 @@ if (isset($_POST) && !empty($_POST)) {
 <button id="toggleBtn"><?php echo $darkMode ? 'Light Mode' : 'Dark Mode'; ?></button>
 <script>
     const btn = document.getElementById("toggleBtn");
+    const prismLink = document.getElementById("prism-theme");
     btn.addEventListener("click", () => {
         document.body.classList.toggle("dark-gray");
         if (document.body.classList.contains("dark-gray")) {
             btn.textContent = "Light Mode";
             document.cookie = "darkMode=enabled; path=/; max-age=31536000"; // 1 year
+            prismLink.setAttribute("href", "prism-dark.css");
         } else {
             btn.textContent = "Dark Mode";
             document.cookie = "darkMode=disabled; path=/; max-age=31536000";
+            prismLink.setAttribute("href", "prism-light.css");
         }
         });
 </script>
+<script src="prism.js"></script>
 <button type="button" onclick="window.location.href='index.php?debug'">
     Go to Debug Page
 </button>
@@ -306,7 +311,11 @@ if (isset($_POST) && !empty($_POST)) {
     echo '</td></tr></table>';
     ?>
     <?php if(isset($configDump)): ?>
-        <div style="clear: both;"><pre><?php echo $configDump; ?></pre></div>
+        <br><br>
+        <em style='color:grey;font-size:85%;'> Config file preview</em><br>
+        <table><tr><td>
+        <div style="clear: both;"><pre><code class='language-php'><?php echo $configDump; ?></code></pre></div>
+        </td></tr></table>
     <?php endif; ?>
 </body>
 </html>

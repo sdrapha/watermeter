@@ -67,8 +67,10 @@ class Reader extends Watermeter
             $this->errors['getReadout() : increasing'] = ($this->lastValue <= $value);
             $this->errors['value'] = $value;
             $this->errors['lastValue'] = $this->lastValue;
-            $this->errors['delta'] = ($value - $this->lastValue);
-            $this->delta = ($value - $this->lastValue);
+            $this->errors['delta'] = $value - $this->lastValue;
+            $this->errors['acceptable_delta'] = ($value - $this->lastValue) <= $this->config['maxThreshold'];
+            $this->errors['maxThreshold'] = $this->config['maxThreshold'];
+            $this->delta = $value - $this->lastValue;
             $this->hasErrors = true;
             return (float)$this->lastValue;
         }
@@ -147,7 +149,7 @@ class Reader extends Watermeter
             if ($this->debug) {
                 echo 'Choosing last value ' . $numberRead . '<br>';
             }
-            $this->errors['readDigits() : !is_numeric()'] = 'Could not interpret "' . $numberDigital . '". Using last known value ' . (int)$this->lastValue;
+            $this->errors['readDigits() : !is_numeric()'] = 'Could not interpret "' . $numberDigital . '". Using last known value ' . (string)$this->lastValue;
             $this->hasErrors = true;
         }
         // Redundant, comment out temporarily:

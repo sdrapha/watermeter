@@ -38,21 +38,30 @@ $darkMode = isset($_COOKIE['darkMode']) && $_COOKIE['darkMode'] === 'enabled';
 if (isset($_GET['debug'])) {
     $debug = true;
     echo '<link rel="stylesheet" href="styles.css">';
+    echo '<link id="prism-theme" rel="stylesheet" href="prism-' . ($darkMode ? 'dark' : 'light') . '.css">';
     echo '<body class="' . ($darkMode ? 'dark-gray' : '') . '">';
     echo '<button id="toggleBtn">' . ($darkMode ? 'Light Mode' : 'Dark Mode') . '</button>';
     echo '<button type="button" onclick="window.location.href=\'configure.php\'">Go to configure.php</button><br><br>';
     echo '<script>
             const btn = document.getElementById("toggleBtn");
+            const prismLink = document.getElementById("prism-theme");
             btn.addEventListener("click", () => {
                 document.body.classList.toggle("dark-gray");
                 if (document.body.classList.contains("dark-gray")) {
                     btn.textContent = "Light Mode";
                     document.cookie = "darkMode=enabled; path=/; max-age=31536000"; // 1 year
+                    prismLink.setAttribute("href", "prism-dark.css");
                 } else {
                     btn.textContent = "Dark Mode";
                     document.cookie = "darkMode=disabled; path=/; max-age=31536000";
+                    prismLink.setAttribute("href", "prism-light.css");
                 }
             });</script>';
+
+    echo '<script src="prism.js"></script>';
+
+
+
 } else {
     $debug = false;
 }
@@ -69,11 +78,13 @@ try {
     $readout = $watermeterReader->getReadout();
     $offset = $watermeterReader->getOffset();
     $value = $readout+$offset;
+    $delta = $readout-$value;
     $returnData = array();
     if ($watermeterReader->hasErrors()) {
         $returnData['readout'] = $lastValue;
         $returnData['offset'] = $offset;
         $returnData['value'] = $value;
+        $returnData['delta'] = $delta;
         $returnData['status'] = 'error';
         $returnData['errors'] = $watermeterReader->getErrors();
         $returnData['exception'] = false;
@@ -82,6 +93,7 @@ try {
         $returnData['readout'] = $readout;
         $returnData['offset'] = $offset;
         $returnData['value'] = $value;
+        $returnData['delta'] = $delta;
         $returnData['status'] = 'success';
         $returnData['errors'] = false;
         $returnData['exception'] = false;
@@ -123,9 +135,9 @@ try {
         echo "<br>";
         echo "-----------------------------<br>";
         echo '<table><tr><td>';
-        echo "<pre>";
+        echo "<pre><code class='language-php'>";
         var_dump($watermeterReader->getErrors());
-        echo "</pre>";
+        echo "</code></pre>";
         echo "</td></tr></table>";
         echo "-----------------------------<br>";
         echo "<br>";
@@ -154,7 +166,8 @@ try {
         echo "lastValueTimestamp: " . '<span id="localTime" data-ts="' . $lastValueTimestamp . '"></span><br>';
         echo "lastValue: $lastValue\n<br>";
         echo "readout: $readout\n<br>";
-        echo "value: $value\n<br>";
+        echo "delta: $delta\n<br>";
+        echo "value: $value  (readout + offset)\n<br>";
         echo "<br>-----end of debug output-----<br><br>";
     }
     if (isset($_GET['json'])) {
