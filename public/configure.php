@@ -70,6 +70,9 @@ if (isset($_POST) && !empty($_POST)) {
     if (isset($_POST['maxThreshold'])) {
         $config['maxThreshold'] = $_POST['maxThreshold'];
     }
+    if (isset($_POST['maxThresholdBacktracking'])) {
+        $config['maxThresholdBacktracking'] = $_POST['maxThresholdBacktracking'];
+    }
     if (isset($_POST['postprocessing']) && ($_POST['postprocessing'] == 'on')) {
         $config['postprocessing'] = true;
     }
@@ -222,6 +225,11 @@ if (isset($_POST) && !empty($_POST)) {
         <label for="maxThreshold">Max. Threshold</label>
         <input type="text" name="maxThreshold" id="maxThreshold"
                value="<?php echo isset($config['maxThreshold']) ? $config['maxThreshold'] : ''; ?>">
+        <br><em> Max. threshold defines how much delta is acceptable for the new ReadOut in reference to LastValue</em><br>
+        <label for="maxThresholdBacktracking">Max. Threshold Backtracking</label>
+        <input type="text" name="maxThresholdBacktracking" id="maxThresholdBacktracking"
+               value="<?php echo isset($config['maxThresholdBacktracking']) ? $config['maxThresholdBacktracking'] : '0'; ?>">
+        <br><em> How much delta is allowable for backtracking, outputing a value less than LastValue</em><br>
         <label for="lastValue">Initial Value (last value)</label>
         <input type="text" name="lastValue" id="lastValue" value="<?php echo isset($lastValue) ? $lastValue : ''; ?>">
         <label for="offsetValue">Offset Value</label>

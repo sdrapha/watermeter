@@ -59,8 +59,14 @@ class Reader extends Watermeter
         if (
             is_numeric($value) &&
             ($this->lastValue <= $value) &&
-            (($value - $this->lastValue) <= $this->config['maxThreshold'])
+            (($value - $this->lastValue) <= abs(floatval($this->config['maxThreshold']) ))
         ) {
+            return $value;
+        }
+        else if (is_numeric($value) &&
+            ($this->lastValue >= $value) &&
+            (($this->lastValue - $value) <= abs(floatval($this->config['maxThresholdBacktracking']) )))
+        {
             return $value;
         } else {
             $this->errors['getReadout() : is_numeric()'] = is_numeric($value);
@@ -70,6 +76,8 @@ class Reader extends Watermeter
             $this->errors['delta'] = $value - $this->lastValue;
             $this->errors['acceptable_delta'] = ($value - $this->lastValue) <= $this->config['maxThreshold'];
             $this->errors['maxThreshold'] = $this->config['maxThreshold'];
+            $this->errors['acceptable_backtracking_delta'] = ($this->lastValue - $value) <= floatval($this->config['maxThresholdBacktracking']);
+            $this->errors['maxThresholdBacktracking'] = $this->config['maxThresholdBacktracking'];
             $this->delta = $value - $this->lastValue;
             $this->hasErrors = true;
             return (float)$this->lastValue;
